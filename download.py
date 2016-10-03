@@ -1,3 +1,9 @@
+"""
+	Spam Detector
+	by Vincent Jeanselme
+	vincent.jeanselme@gmail.com
+"""
+
 import os
 import zipfile
 from urllib.request import urlretrieve
@@ -28,5 +34,3 @@ def downloadAndExtractFile(destination, fileName = file, adress = url, force = F
 		extract(fileName, destination)
 	else :
 		print("File already present on your system")
-
-downloadAndExtractFile("SpamDataSet")
