@@ -53,7 +53,6 @@ def compute(features, model) :
 
 		res += log(sqrt(nvar/svar)) + (-(feature-smean)**2/(2*svar)
 			+ (feature-nmean)**2/(2*nvar))
-	print(res)
 	return res > 0
 
 def test(testingFeatures, testingClasses, model):
