@@ -7,13 +7,15 @@
 import pandas as pd
 import numpy as np
 
+FEATURES_NUMBER = 57
+
 def openDataSet(dataSetName):
 	"""
 	Opens the dataset and extracts classes and emails features
 	"""
 	emails = pd.read_table(dataSetName, header=None, sep=',')
-	emails_classes = emails[57].as_matrix()
-	emails_features = emails.drop([57], axis=1).as_matrix()
+	emails_classes = emails[FEATURES_NUMBER].as_matrix()
+	emails_features = emails.drop([FEATURES_NUMBER], axis=1).as_matrix()
 
 	return emails_features, emails_classes
 
@@ -39,3 +41,13 @@ def dataSeparation(features, classes, testNumber):
 	trainingClasses = classes[testNumber:]
 
 	return trainingFeatures, trainingClasses, testFeatures, testClasses
+
+def emailToVector(fileName):
+	"""
+	Computes the same feature than in the dataset
+	"""
+	print("Email features extraction not implemented")
+	res = np.zeros(FEATURES_NUMBER)
+	with open(fileName, 'r') as email:
+		pass
+	return res

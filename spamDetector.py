@@ -4,6 +4,7 @@
 	vincent.jeanselme@gmail.com
 """
 
+import os
 import sys
 import numpy as np
 import download as dw
@@ -30,13 +31,33 @@ def dataTrainTest(destination, dataSetName, saveName, testNumber):
 	result = mod.test(testFeatures, testClasses, model)
 	print('\t-> ' + str(round(100*result/testFeatures.shape[0],2)) + ' / 100')
 
+def testEmail(modelFileName, fileNames):
+	"""
+	Tests text emails
+	"""
+	if not(os.path.exists(modelFileName)):
+		print("Model does not exist")
+	model = mod.open(modelFileName)
+	for fileName in fileNames:
+		if not(os.path.exists(fileName)):
+			print("Email does not exist")
+		else :
+			features = de.emailToVector(fileName)
+			res = mod.compute(features, model)
+
+			if res :
+				print("This mail is categorized as a spam")
+			else :
+				print("This mail is categorized as a safe email")
+
 def help():
-	print("spamDetector (-train [-t NumberOfTest] [-m modelSaveName]|-test [-m ModelFileName] FileName)")
+	print("spamDetector (-train [-t NumberOfTest] [-m modelSaveName]|-test -m ModelFileName (-f FileName)*)")
 	quit()
 
 def main():
 	arg = sys.argv
-	saveName = "emails.model"
+	saveName = "emails.model.npy"
+	fileNames = []
 	if len(arg) < 2:
 		help()
 	elif "-train" in arg[1]:
@@ -63,9 +84,15 @@ def main():
 			if arg[i] == "-m":
 				saveName = arg[i+1]
 				i+=2
+			elif arg[i] == "-f":
+				fileNames.append(arg[i+1])
+				i+=2
 			else:
 				help()
-			print("NotYetImplemented")
+		if fileNames != []:
+			testEmail(saveName, fileNames)
+		else:
+			help()
 	else:
 		help()
 

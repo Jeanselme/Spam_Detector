@@ -8,9 +8,9 @@ This algorithm uses the dataset extracted from the website of Lichman, M. (2013)
 The Naive Bayes Classifier is a probabilistic classifier which assumes that all features are independent.  
 This algorithm is based on :
 ### Bayes rule
-'''
+```
 P(Spam|Email) = P(Spam) * P(Email | Spam) / P(Email)
-'''
+```
 
 ### Modeling
 To model the P(Email = (features(i)), Spam) = Sum(P(features(i)|Spam)) * P(Spam),  
@@ -18,3 +18,14 @@ the current version uses a gaussian distibution for each feature with a mean and
 
 ### Decision
 In order to decide if an email is a spam or not, the program computes ln(P(Spam|Email)/P(NonSpam|Email)). If the result is positive, the email is classified zas a spam, otherwise it is not a spam.
+
+## Execution
+For the learning phasis :  
+```
+python3.5 spamDetector.py -train
+```
+
+For the training phasis :  
+```
+python3.5 spamDetector.py -test -f emailName 
+```
