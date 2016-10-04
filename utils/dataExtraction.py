@@ -51,17 +51,23 @@ def countWords(text, words):
 
 def countChar(text, chars):
 	res = np.zeros(len(chars))
-	textList = list(text.split())
+	textList = text.split()
+	charText = []
+	for word in textList:
+		charText += list(word)
 	for char in range(len(chars)):
-		res[char] = textList.count(chars[char])/len(textList)
+		res[char] += textList.count(chars[char])/len(textList)
 	return res
 
 def capitalLetter(text):
 	res = [0,0,0]
-	textList = list(text.split())
 	stop = True
 	cap = []
-	for char in textList:
+	textList = text.split()
+	charText = []
+	for word in textList:
+		charText += list(word)
+	for char in charText:
 		if (char in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
 			res[1] += 1
 			if stop == True:
@@ -71,8 +77,9 @@ def capitalLetter(text):
 			stop = False
 		else:
 			stop = True
-	res[2] = max([len(cap[i]) for i in range(len(cap))])
-	res[0] = res[1] / len(cap)
+	if cap != []:
+		res[2] = max([len(cap[i]) for i in range(len(cap))])
+		res[0] = res[1] / len(cap)
 	return res
 
 def emailToVector(fileName):

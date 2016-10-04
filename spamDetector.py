@@ -7,9 +7,9 @@
 import os
 import sys
 import numpy as np
-import download as dw
-import dataExtraction as de
-import naiveBayesClassifier as mod
+import utils.download as dw
+import utils.dataExtraction as de
+import utils.naiveBayesClassifier as mod
 
 def dataTrainTest(destination, dataSetName, saveName, testNumber):
 	"""
