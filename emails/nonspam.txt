@@ -1,0 +1,12 @@
+From: Vincent Jeanselme[mailto:vincent.jeanselme@gmail.com]
+Sent: Tuesday, October 4, 2016 5:09 PM
+Subject: Spam Detector
+
+Just a few words about this spam detector, which allows to detect certain kind of
+spams. However, we can see its limits when the typo is okay and there is no number
+in the email. That would be interesting to extract other data from emails.
+An other mail could be implemented to correlate the different features.
+
+See you soon on my GitHub !
+
+Vincent Jeanselme
