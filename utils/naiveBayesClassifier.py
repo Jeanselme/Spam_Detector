@@ -19,7 +19,6 @@ def train(trainingFeatures, trainingClasses, saveName):
 	model[0] = np.mean(trainingFeatures[spam,:], axis=1)
 	model[1] = np.var(trainingFeatures[spam,:], axis=1)
 
-
 	# Computes the mean and variance of the nonspam on each feature
 	model[2] = np.mean(trainingFeatures[nonspam,:], axis=1)
 	model[3] = np.var(trainingFeatures[nonspam,:], axis=1)
@@ -52,8 +51,9 @@ def compute(features, model) :
 		nmean = model[2,t]
 		nvar = model[3,t]
 
-		res += log(nvar/svar) + (-(feature-smean)**2/(2*svar**2)
-			+ (feature-nmean)**2/(2*nvar**2))
+		res += log(sqrt(nvar/svar)) + (-(feature-smean)**2/(2*svar)
+			+ (feature-nmean)**2/(2*nvar))
+	print(res)
 	return res > 0
 
 def test(testingFeatures, testingClasses, model):

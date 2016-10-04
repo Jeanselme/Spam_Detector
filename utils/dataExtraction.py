@@ -43,23 +43,34 @@ def dataSeparation(features, classes, testNumber):
 	return trainingFeatures, trainingClasses, testFeatures, testClasses
 
 def countWords(text, words):
+	"""
+	Counts the occurence of the list of words and returns a list of number
+	"""
 	res = np.zeros(len(words))
 	textList = text.split()
 	for word in range(len(words)):
-		res[word] = textList.count(words[word])/len(textList)
+		for presentWord in textList:
+			if words[word] in presentWord :
+				res[word] += 100/len(textList)
 	return res
 
 def countChar(text, chars):
+	"""
+	Counts the occurence of the list of characters and returns a list of number
+	"""
 	res = np.zeros(len(chars))
 	textList = text.split()
 	charText = []
 	for word in textList:
 		charText += list(word)
 	for char in range(len(chars)):
-		res[char] += textList.count(chars[char])/len(textList)
+		res[char] += 100 * textList.count(chars[char])/len(chars)
 	return res
 
 def capitalLetter(text):
+	"""
+	Extracts the features of capital letter
+	"""
 	res = [0,0,0]
 	stop = True
 	cap = []
@@ -69,7 +80,7 @@ def capitalLetter(text):
 		charText += list(word)
 	for char in charText:
 		if (char in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
-			res[1] += 1
+			res[2] += 1
 			if stop == True:
 				cap.append(char)
 			else:
@@ -78,8 +89,8 @@ def capitalLetter(text):
 		else:
 			stop = True
 	if cap != []:
-		res[2] = max([len(cap[i]) for i in range(len(cap))])
-		res[0] = res[1] / len(cap)
+		res[1] = max([len(cap[i]) for i in range(len(cap))])
+		res[0] = res[2] / len(cap)
 	return res
 
 def emailToVector(fileName):
