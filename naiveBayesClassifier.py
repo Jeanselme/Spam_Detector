@@ -5,11 +5,57 @@
 """
 
 import numpy as np
+from math import exp, sqrt, log, pi
 
 def train(trainingFeatures, trainingClasses, saveName):
-	print("Not yet implemented")
-	return trainingFeatures , 0
+	"""
+	Creates a matrix of mean and variance given a class
+	"""
+	spam = np.where(trainingClasses == 1)
+	nonspam = np.where(trainingClasses == 0)
+
+	model = np.zeros((4, trainingFeatures.shape[1]))
+	# Computes the mean, variance, min and max of the spam on each feature
+	model[0] = np.mean(trainingFeatures[spam,:], axis=1)
+	model[1] = np.var(trainingFeatures[spam,:], axis=1)
+
+
+	# Computes the mean and variance of the nonspam on each feature
+	model[2] = np.mean(trainingFeatures[nonspam,:], axis=1)
+	model[3] = np.var(trainingFeatures[nonspam,:], axis=1)
+
+	np.save(saveName, model)
+	return model, test(trainingFeatures, trainingClasses, model)
+
+def compute(features, model) :
+	"""
+	Computes the log(p(Spam|Email) / p(NonSpam|Email))
+	Modelizes the p as a gaussian density
+	"""
+	res = 0
+	for t in range(len(features)):
+		feature = features[t]
+		# Spam mean and var
+		smean = model[0,t]
+		svar = model[1,t]
+
+		# Non Spam mean and var
+		nmean = model[2,t]
+		nvar = model[3,t]
+
+		res += log(nvar/svar) + (-(feature-smean)**2/(2*svar**2)
+			+ (feature-nmean)**2/(2*nvar**2))
+	return res
 
 def test(testingFeatures, testingClasses, model):
-	print("Not yet implemented")
-	return 0
+	"""
+	Tests the different given emails
+	"""
+	wellRecognized = 0
+	for c in range(len(testingClasses)):
+		res = compute(testingFeatures[c], model)
+		if res > 0 and testingClasses[c] == 1:
+			wellRecognized += 1
+		elif res <= 0 and testingClasses[c] == 0:
+			wellRecognized += 1
+	return wellRecognized

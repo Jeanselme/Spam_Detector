@@ -8,10 +8,12 @@ import sys
 import numpy as np
 import download as dw
 import dataExtraction as de
-import naiveBayesClassifier as nbc
-from sklearn.linear_model import LogisticRegression
+import naiveBayesClassifier as mod
 
 def dataTrainTest(destination, dataSetName, saveName, testNumber):
+	"""
+	Downloads, creates a model and test it.
+	"""
 	print("Getting data")
 	dw.downloadAndExtractFile(destination)
 	features, classes = de.openDataSet(dataSetName)
@@ -21,12 +23,12 @@ def dataTrainTest(destination, dataSetName, saveName, testNumber):
 		features, classes, testNumber)
 
 	print("Training")
-	model, result = nbc.train(trainFeatures, trainClasses, saveName)
-	print(str(result) +' / '+ str(trainFeatures.shape[0]))
+	model, result = mod.train(trainFeatures, trainClasses, saveName)
+	print('\t-> ' + str(round(100*result/trainFeatures.shape[0],2)) + ' / 100')
 
 	print("Testing")
-	result = nbc.test(testFeatures, testClasses, model)
-	print(str(result) +' / '+ str(testFeatures.shape[0]))
+	result = mod.test(testFeatures, testClasses, model)
+	print('\t-> ' + str(round(100*result/testFeatures.shape[0],2)) + ' / 100')
 
 def help():
 	print("spamDetector (-train [-t NumberOfTest] [-m modelSaveName]|-test [-m ModelFileName] FileName)")
