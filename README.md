@@ -32,4 +32,4 @@ python3.5 spamDetector.py -test -f emailName
 ```
 
 ## Libraries
-Needs numpy, os, pandas, sys, urllib.request and zipfile. Compiled with python3.5
+Needs numpy, os, pandas, sys, urllib.request and zipfile. Executed with python3.5
