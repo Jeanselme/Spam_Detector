@@ -7,6 +7,8 @@
 import numpy as np
 from math import exp, sqrt, log, pi
 
+saveName = "emails.model.npy"
+
 def train(trainingFeatures, trainingClasses, saveName):
 	"""
 	Creates a matrix of mean and variance given a class

@@ -84,7 +84,7 @@ def help():
 
 def main():
 	arg = sys.argv
-	saveName = "emails.model.npy"
+	saveName = mod.saveName
 	destination = "DataSet"
 	dataSet = destination + "/spambase.data"
 	fileNames = []
