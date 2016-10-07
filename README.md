@@ -20,7 +20,15 @@ the current version uses a gaussian distibution for each feature with a mean and
 ### Decision
 In order to decide if an email is a spam or not, the program computes ln(P(Spam|Email)/P(NonSpam|Email)). If the result is positive, the email is classified as a spam, otherwise it is not a spam.
 
+### Result
+
+## Linear Regression
+Computes a simple linear regression on the model
+
+### Result
+
 ## Execution
+In order to change the model, go in spamDetector and change the library called.
 For the learning phasis :  
 ```
 python3.5 spamDetector.py -train
@@ -32,4 +40,4 @@ python3.5 spamDetector.py -test -f emailName
 ```
 
 ## Libraries
-Needs numpy, os, pandas, sys, urllib.request and zipfile. Compiled with python3.5
+Needs numpy, os, pandas, sys, urllib.request and zipfile. Executed with python3.5
