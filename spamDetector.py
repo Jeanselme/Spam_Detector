@@ -9,7 +9,7 @@ import sys
 import numpy as np
 import utils.download as dw
 import utils.dataExtraction as de
-import utils.naiveBayesClassifier as mod
+import models.linearRegression as mod
 
 def dataTrainTest(destination, dataSetName, saveName, testNumber):
 	"""
