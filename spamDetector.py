@@ -9,12 +9,14 @@ import sys
 import numpy as np
 import utils.download as dw
 import utils.dataExtraction as de
-import models.linearRegression as mod
+import models.classifier as classifier
 
-def dataTrainTest(destination, dataSetName, saveName, testNumber):
+def dataTrainTest(model, destination, dataSetName, testNumber):
 	"""
 	Downloads, creates a model and test it.
 	"""
+	mod = classifier.classifier().get(model)
+
 	print("Getting data")
 	dw.downloadAndExtractFile(destination)
 	features, classes = de.openDataSet(dataSetName)
@@ -25,11 +27,11 @@ def dataTrainTest(destination, dataSetName, saveName, testNumber):
 		features, classes, testNumber)
 
 	print("Training")
-	model, result = mod.train(trainFeatures, trainClasses, saveName)
+	result = mod.train(trainFeatures, trainClasses)
 	print('\t-> ' + str(round(100*result/trainFeatures.shape[0],2)) + ' / 100')
 
 	print("Testing")
-	result = mod.test(testFeatures, testClasses, model)
+	result = mod.test(testFeatures, testClasses)
 	print('\t-> ' + str(round(100*result/testFeatures.shape[0],2)) + ' / 100')
 
 def addToDataSet(features, res, dataSet):
@@ -58,19 +60,21 @@ def addToDataSet(features, res, dataSet):
 		elif ("n" in answerText):
 			answer = True
 
-def testEmail(modelFileName, fileNames, dataSet):
+def testEmail(model, fileNames, dataSet):
 	"""
 	Tests text emails
 	"""
 	if not(os.path.exists(modelFileName)):
-		print("Model does not exist")
-	model = mod.open(modelFileName)
+		print("Model does not exist -- spamDetector -train -m "+model)
+	mod = classifier.classifier().get(model)
+	mod.open()
+
 	for fileName in fileNames:
 		if not(os.path.exists(fileName)):
 			print("Email does not exist")
 		else :
 			features = de.emailToVector(fileName)
-			res = mod.compute(features, model)
+			res = mod.compute(features)
 
 			if res :
 				print("This mail is categorized as a spam")
@@ -79,14 +83,14 @@ def testEmail(modelFileName, fileNames, dataSet):
 			addToDataSet(features, res, dataSet)
 
 def help():
-	print("spamDetector (-train [-t NumberOfTest] [-m modelSaveName]|-test -m ModelFileName (-f FileName)*)")
+	print("spamDetector (-train [-t NumberOfTest] [-m modelName]|-test [-m modelName] (-f FileName)*)")
 	quit()
 
 def main():
 	arg = sys.argv
-	saveName = mod.saveName
 	destination = "DataSet"
 	dataSet = destination + "/spambase.data"
+	model = "nbc"
 	fileNames = []
 	if len(arg) < 2:
 		help()
@@ -99,18 +103,18 @@ def main():
 					testNumber = int(arg[i+1])
 					i+=2
 				elif arg[i] == "-m":
-					saveName = arg[i+1]
+					model = arg[i+1]
 					i+=2
 				else:
 					help()
-			dataTrainTest(destination, dataSet, saveName, testNumber)
+			dataTrainTest(model, destination, dataSet, testNumber)
 		else :
 			help()
 	elif "-test" in arg[1] :
 		i = 2
 		while i+1 < len(arg):
 			if arg[i] == "-m":
-				saveName = arg[i+1]
+				model = arg[i+1]
 				i+=2
 			elif arg[i] == "-f":
 				fileNames.append(arg[i+1])
@@ -118,7 +122,7 @@ def main():
 			else:
 				help()
 		if fileNames != []:
-			testEmail(saveName, fileNames, dataSet)
+			testEmail(model, fileNames, dataSet)
 		else:
 			help()
 	else:
